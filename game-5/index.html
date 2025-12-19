@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的選擇就是你</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 背景 -->
+  <div id="bg" class="background"></div>
+  
+  <!-- 角色立繪 -->
+  <img id="charImg" class="character" src="assets/an_1_normal.jpg" alt="安乾皓">
+  
+  <!-- ⭐ 左上角返回按鈕 -->
+  <button id="backButton" class="back-button" style="display: none;" title="返回上一步">
+    ↩️
+  </button>
+  
+  <!-- 右上角控制區 -->
+  <div class="controls">
+    <button id="musicBtn" class="control-btn active" title="音樂開關">🎵</button>
+    <button id="volumeBtn" class="control-btn" title="音量設定">🔊</button>
+    <button id="tipsBtn" class="control-btn tips-btn" title="攻略小提示">💡</button>
+    <button id="profileBtn" class="control-btn" title="角色介紹">👤</button>
+    <button id="settingsBtn" class="control-btn" title="設定">⚙️</button>
+    
+    <!-- 音量面板 -->
+    <div id="volumePanel" class="volume-panel">
+      <div class="volume-item">
+        <label>BGM</label>
+        <input type="range" id="bgmVolume" min="0" max="100" value="70">
+      </div>
+      <div class="volume-item">
+        <label>音效</label>
+        <input type="range" id="seVolume" min="0" max="100" value="80">
+      </div>
+    </div>
+  </div>
+  
+  <!-- 左上角遊戲標題 -->
+  <div class="game-title">我的選擇就是你</div>
+  
+  <!-- 右上角玩家資訊 -->
+  <div class="player-info">
+    <div>你：<span id="playerName">努那</span></div>
+    <div>好感度：<span id="affection">0</span></div>
+  </div>
+  
+  <!-- 對話框 -->
+  <div class="dialogue-box">
+    <div class="speaker" id="speaker">旁白</div>
+    <div class="text" id="text">故事開始...</div>
+    
+    <!-- 選項區 -->
+    <div id="choices" class="choices">
+      <!-- 選項會動態生成在這裡 -->
+    </div>
+  </div>
+  
+  <!-- 暱稱輸入彈窗 -->
+  <div id="nameModal" class="modal">
+    <div class="modal-content">
+      <h2>歡迎來到《我的選擇就是你》</h2>
+      <p>請輸入你的暱稱：</p>
+      <input type="text" id="nickname" placeholder="例如：努那" maxlength="10">
+      <p id="statsHint" class="stats-hint">目前本機統計：總遊玩 0 次｜成功 0｜失敗 0</p>
+      <button id="startBtn" class="start-btn">開始遊戲</button>
+    </div>
+  </div>
+  
+  <!-- 設定彈窗 -->
+  <div id="settingsModal" class="modal" style="display: none;">
+    <div class="modal-content settings-modal">
+      <h2>⚙️ 設定</h2>
+      
+      <!-- 打字速度控制 -->
+      <div class="settings-section">
+        <label class="settings-label">⌨️ 文字速度</label>
+        <div class="speed-controls">
+          <button class="speed-btn" data-speed="30">快</button>
+          <button class="speed-btn active" data-speed="50">中</button>
+          <button class="speed-btn" data-speed="80">慢</button>
+        </div>
+      </div>
+      
+      <div class="settings-buttons">
+        <button id="backToCoverBtn" class="settings-btn">
+          🏠 返回封面
+        </button>
+      </div>
+      <button id="closeSettingsBtn" class="close-settings-btn">關閉</button>
+    </div>
+  </div>
+  
+  <!-- 確認彈窗 -->
+  <div id="confirmModal" class="modal" style="display: none;">
+    <div class="modal-content confirm-modal">
+      <div class="confirm-icon" id="confirmIcon">⚠️</div>
+      <h2 id="confirmTitle">確認操作</h2>
+      <p id="confirmText" style="white-space: pre-line;">確定要執行此操作嗎？</p>
+      <div class="confirm-buttons">
+        <button id="confirmOkBtn" class="confirm-btn ok">確定</button>
+        <button id="confirmCancelBtn" class="confirm-btn cancel">取消</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 角色介紹彈窗 -->
+  <div id="profileModal" class="modal" style="display: none;">
+    <div class="modal-content profile-modal">
+      <button id="closeProfileBtn" class="close-profile-btn">✕</button>
+      
+      <h2 class="profile-title">👤 角色介紹</h2>
+      
+      <div class="profile-layout">
+        <!-- 左側：角色立繪 -->
+        <div class="profile-left">
+          <div class="profile-avatar">
+            <img src="assets/an_3_smile.jpg" alt="安乾皓">
+          </div>
+          <div class="profile-name-box">
+            <h3>安乾皓</h3>
+            <p>안건호</p>
+          </div>
+        </div>
+        
+        <!-- 右側：資料 -->
+        <div class="profile-right">
+          <!-- 基本資料 -->
+          <div class="info-card">
+            <div class="info-header">📊 基本資料</div>
+            <div class="info-body">
+              <div class="info-row">
+                <span class="info-key">生日</span>
+                <span class="info-val">2月14日 ♥</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">身高</span>
+                <span class="info-val">178 cm</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">血型</span>
+                <span class="info-val">A型</span>
+              </div>
+              <div class="info-row">
+                <span class="info-key">星座</span>
+                <span class="info-val">水瓶座 ♒</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 個性 -->
+          <div class="info-card">
+            <div class="info-header">💭 個性</div>
+            <div class="info-body">
+              <p>外冷內熱，不善言辭但會用行動表達。一旦認定就不會放手。</p>
+            </div>
+          </div>
+          
+          <!-- 喜歡 & 夢想 -->
+          <div class="info-row-cards">
+            <div class="info-card info-card-half">
+              <div class="info-header">❤️ 喜歡</div>
+              <div class="info-body">
+                <p>圖書館、音樂、推理小說</p>
+              </div>
+            </div>
+            <div class="info-card info-card-half">
+              <div class="info-header">🎵 夢想</div>
+              <div class="info-body">
+                <p>成為一名歌手</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 攻略提示彈窗 -->
+  <div id="tipsModal" class="modal" style="display: none;">
+    <div class="modal-content tips-modal">
+      <button id="closeTipsBtn" class="close-tips-btn">✕</button>
+      
+      <div class="tips-header">
+        <div class="tips-icon">💡</div>
+        <h2>攻略小提示</h2>
+      </div>
+      
+      <div class="tips-content">
+        <div class="tip-item">
+          <div class="tip-number">1</div>
+          <div class="tip-text">
+            <h3>選擇安靜、深入的互動</h3>
+            <p>小安不喜歡太吵鬧或浮誇的場合，選擇圖書館、安靜的咖啡廳等選項會更受青睞</p>
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-number">2</div>
+          <div class="tip-text">
+            <h3>尊重他的個人空間</h3>
+            <p>別太強勢或急躁，給他思考和回應的時間，耐心等待會有更好的結果</p>
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-number">3</div>
+          <div class="tip-text">
+            <h3>用行動勝過言語</h3>
+            <p>展現真誠的關心，實際的幫助比華麗的辭藻更能打動小安</p>
+          </div>
+        </div>
+        
+        <div class="tip-item">
+          <div class="tip-number">4</div>
+          <div class="tip-text">
+            <h3>注意細節和情緒</h3>
+            <p>小安很敏感，會觀察你的反應。選擇體貼、細心的選項能加分</p>
+          </div>
+        </div>
+        
+        <div class="tips-warning">
+          <span class="warning-icon">⚠️</span>
+          <p>選擇順序已隨機！第一個選項不一定是最佳答案，請仔細閱讀每個選項</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
